@@ -1,83 +1,64 @@
 import json
 from collections import Counter
+from pathlib import Path
 
 from configs.dataset_config import (
     ANNOTATIONS_JSON,
-    TOP100_JSON,
-    TOP_K_CLASSES,
+    OUTPUT_DIR,
+    TOP_K_WORDS,
 )
+
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+OUTPUT_JSON = OUTPUT_DIR / "top100_annotations.json"
 
 
 def load_annotations():
-
     with open(ANNOTATIONS_JSON, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
-def build_top100(data):
-
+def count_words(data):
     counter = Counter()
 
     for sample in data:
-        counter[sample["gloss"]] = len(sample["instances"])
+        gloss = sample["gloss"]
+        counter[gloss] += len(sample["instances"])
 
-    top_classes = counter.most_common(TOP_K_CLASSES)
-
-    selected = {name for name, _ in top_classes}
-
-    filtered = [
-        sample
-        for sample in data
-        if sample["gloss"] in selected
-    ]
-
-    return filtered, top_classes
+    return counter
 
 
-def save_annotations(data):
+def build_dataset(data, selected_words):
+    output = []
 
-    with open(TOP100_JSON, "w", encoding="utf-8") as f:
-        json.dump(
-            data,
-            f,
-            indent=4,
-            ensure_ascii=False,
-        )
+    for sample in data:
+        if sample["gloss"] in selected_words:
+            output.append(sample)
 
-
-def print_statistics(top_classes):
-
-    print("=" * 60)
-    print("Top Classes")
-    print("=" * 60)
-
-    total = 0
-
-    for idx, (name, count) in enumerate(top_classes, start=1):
-
-        total += count
-
-        print(f"{idx:03d}. {name:<25} {count}")
-
-    print("=" * 60)
-    print("Classes :", len(top_classes))
-    print("Videos  :", total)
-    print("=" * 60)
+    return output
 
 
 def main():
 
     data = load_annotations()
 
-    filtered, top_classes = build_top100(data)
+    counter = count_words(data)
 
-    save_annotations(filtered)
+    top_words = {
+        word
+        for word, _ in counter.most_common(TOP_K_WORDS)
+    }
 
-    print_statistics(top_classes)
+    dataset = build_dataset(data, top_words)
 
-    print()
-    print("Saved to:")
-    print(TOP100_JSON)
+    with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
+        json.dump(dataset, f, indent=4)
+
+    print("=" * 60)
+    print("Top Words :", len(top_words))
+    print("Glosses   :", len(dataset))
+    print("Saved To  :", OUTPUT_JSON)
+    print("=" * 60)
 
 
 if __name__ == "__main__":
