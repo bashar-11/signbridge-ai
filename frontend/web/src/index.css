@@ -1,0 +1,211 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand */
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
+    --accent-live: 189 94% 43%;
+
+    /* Surfaces */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --surface: 210 20% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    /* Feedback */
+    --success: 142 71% 45%;
+    --warning: 32 95% 44%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --info: 189 94% 43%;
+
+    /* Boundaries */
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
+
+    /* Status dots */
+    --dot-success: 142 71% 45%;
+    --dot-warning: 32 95% 44%;
+    --dot-destructive: 0 72% 51%;
+    --dot-muted: 215 16% 80%;
+
+    /* Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius-2xl: 24px;
+
+    /* Elevation */
+    --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 4px 12px -2px rgb(15 23 42 / 0.08);
+    --shadow-float: 0 8px 24px -4px rgb(15 23 42 / 0.16), 0 4px 8px -2px rgb(15 23 42 / 0.08);
+    --shadow-focus: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring));
+  }
+
+  .dark {
+    --background: 222 47% 7%;
+    --foreground: 210 40% 98%;
+    --surface: 222 45% 10%;
+    --card: 222 45% 10%;
+    --card-foreground: 210 40% 98%;
+    --muted: 217 33% 16%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 16%;
+    --accent-foreground: 210 40% 98%;
+    --secondary: 217 33% 16%;
+    --secondary-foreground: 210 40% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --accent-live: 189 90% 60%;
+    --border: 217 33% 20%;
+    --input: 217 33% 20%;
+    --ring: 217 91% 60%;
+    --success: 142 69% 58%;
+    --warning: 35 92% 60%;
+    --destructive: 0 72% 62%;
+    --info: 189 90% 60%;
+    --dot-success: 142 69% 58%;
+    --dot-warning: 35 92% 60%;
+    --dot-destructive: 0 72% 62%;
+    --dot-muted: 215 20% 35%;
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 12px -2px rgb(0 0 0 / 0.6);
+    --shadow-float: 0 8px 24px -4px rgb(0 0 0 / 0.7), 0 4px 8px -2px rgb(0 0 0 / 0.5);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply tracking-tight;
+  }
+
+  ::selection {
+    @apply bg-primary/20;
+  }
+
+  /* Visible focus for keyboard users only */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Accessible scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+}
+
+@layer components {
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-float;
+  }
+
+  .glass {
+    @apply bg-background/80 backdrop-blur-xl;
+  }
+
+  .tabular {
+    @apply tabular-nums;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Skeleton shimmer */
+  .skeleton-shimmer {
+    @apply animate-shimmer bg-muted;
+    background-image: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted) / 0.45) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High-contrast mode (opt-in via Settings) */
+html[data-high-contrast="true"] {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --surface: 0 0% 8%;
+  --card: 0 0% 5%;
+  --card-foreground: 0 0% 100%;
+  --muted: 0 0% 14%;
+  --muted-foreground: 0 0% 88%;
+  --secondary: 0 0% 12%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 0 0% 14%;
+  --accent-foreground: 0 0% 100%;
+  --border: 0 0% 55%;
+  --input: 0 0% 55%;
+  --ring: 0 0% 100%;
+  --dot-success: 120 100% 50%;
+  --dot-warning: 45 100% 55%;
+  --dot-destructive: 0 100% 60%;
+  --dot-muted: 0 0% 65%;
+}
+html[data-high-contrast="true"] body {
+  border: 2px solid hsl(var(--foreground));
+}
+
+/* Reduce-motion attribute (opt-in, complements prefers-reduced-motion) */
+html[data-reduce-motion="true"] *,
+html[data-reduce-motion="true"] *::before,
+html[data-reduce-motion="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
