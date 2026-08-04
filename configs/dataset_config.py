@@ -6,7 +6,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 # Original WLASL Dataset
 # ============================
 
-DATASET_ROOT = Path("/kaggle/input/risangbaskoro-wlasl-processed")
+DATASET_ROOT = Path("/kaggle/input/datasets/risangbaskoro/wlasl-processed")
 
 ANNOTATIONS_JSON = DATASET_ROOT / "WLASL_v0.3.json"
 
