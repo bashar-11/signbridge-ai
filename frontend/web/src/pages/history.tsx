@@ -59,7 +59,18 @@ import {
 import { MOCK_CONVERSATIONS, type Conversation } from "@/lib/mock";
 import { formatDate, formatDuration, relativeTime } from "@/lib/utils";
 
-type ModeFilter = "all" | "hearing" | "deaf";
+/**
+ * Conversations record the direction of translation, not the role of the user:
+ * "sign-speech" is a Deaf signer being rendered as speech, "speech-sign" is
+ * speech being rendered as a sign. Deriving the filter from Conversation keeps
+ * these two vocabularies from drifting apart again.
+ */
+type ModeFilter = "all" | Conversation["mode"];
+
+const MODE_LABELS: Record<Conversation["mode"], string> = {
+  "sign-speech": "Sign \u2192 Speech",
+  "speech-sign": "Speech \u2192 Sign",
+};
 
 function exportConversation(conversation: Conversation, format: "json" | "txt" | "csv") {
   let content = "";
@@ -148,8 +159,8 @@ export function HistoryPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All modes</SelectItem>
-                <SelectItem value="hearing">Hearing</SelectItem>
-                <SelectItem value="deaf">Deaf</SelectItem>
+                <SelectItem value="sign-speech">Sign &rarr; Speech</SelectItem>
+                <SelectItem value="speech-sign">Speech &rarr; Sign</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -195,9 +206,9 @@ export function HistoryPage() {
                     <TableRow key={c.id} className="group">
                       <TableCell className="font-medium">{c.title}</TableCell>
                       <TableCell>
-                        <Badge variant={c.mode === "hearing" ? "default" : "live"}>
-                          {c.mode === "hearing" ? <Video className="h-3 w-3" /> : <Mic className="h-3 w-3" />}
-                          {c.mode === "hearing" ? "Hearing" : "Deaf"}
+                        <Badge variant={c.mode === "sign-speech" ? "default" : "live"}>
+                          {c.mode === "sign-speech" ? <Mic className="h-3 w-3" /> : <Video className="h-3 w-3" />}
+                          {MODE_LABELS[c.mode]}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-muted-foreground">
@@ -257,8 +268,8 @@ export function HistoryPage() {
                       {relativeTime(c.createdAt)} · {formatDuration(c.durationSec)} · {c.turns.length} turns
                     </p>
                   </div>
-                  <Badge variant={c.mode === "hearing" ? "default" : "live"} className="hidden sm:inline-flex">
-                    {c.mode === "hearing" ? "Hearing" : "Deaf"}
+                  <Badge variant={c.mode === "sign-speech" ? "default" : "live"} className="hidden sm:inline-flex">
+                    {MODE_LABELS[c.mode]}
                   </Badge>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>

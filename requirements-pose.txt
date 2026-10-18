@@ -1,0 +1,22 @@
+# Optional pose-estimation stack.
+#
+# mmcv is compiled from source and must match your torch and CUDA build. On a
+# CPU-only machine, install it with:
+#
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#   pip install mmcv-lite
+#   pip install -r requirements-pose.txt
+#
+# For a CUDA build, follow the mmcv install matrix first:
+#   https://mmcv.readthedocs.io/en/latest/get_started/installation.html
+#
+# Only needed once RTMOBackend is implemented; nothing in the dataset pipeline
+# imports these.
+
+torch>=2.0
+torchvision>=0.15
+mmpose>=1.3
+mmengine>=0.10
+mmcv-lite>=2.0
+mmdet>=3.3
+einops>=0.7

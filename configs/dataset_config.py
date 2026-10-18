@@ -1,20 +1,21 @@
-from pathlib import Path
+"""
+Dataset selection settings.
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+These values decide which WLASL classes and videos the project trains on.
+The limits matter: WLASL is class-imbalanced by a wide margin, so the top-N
+glosses by instance count are selected and then capped per class to stop the
+most common signs from dominating the split.
+"""
 
-# ============================
-# Original WLASL Dataset
-# ============================
+from configs.paths import ANNOTATIONS_JSON, PROJECT_ROOT, VIDEOS_DIR
 
-DATASET_ROOT = Path("/kaggle/input/datasets/risangbaskoro/wlasl-processed")
+# ============================================================
+# Original WLASL dataset (paths resolved in configs.paths)
+# ============================================================
 
-ANNOTATIONS_JSON = DATASET_ROOT / "WLASL_v0.3.json"
-
-VIDEOS_DIR = DATASET_ROOT / "videos"
-
-# ============================
+# ============================================================
 # Output
-# ============================
+# ============================================================
 
 DATA_DIR = PROJECT_ROOT / "data"
 
@@ -26,12 +27,29 @@ KEYPOINTS_DIR = DATA_DIR / "keypoints"
 
 OUTPUT_DIR = ANNOTATIONS_DIR
 
-# ============================
-# Dataset Settings
-# ============================
+# ============================================================
+# Dataset settings
+# ============================================================
 
+# Number of glosses to keep, ranked by how many instances each has.
 TOP_K_WORDS = 100
 
+# Hard cap per class. Without this the most frequent glosses would supply a
+# large share of every batch and the model would learn frequency, not sign.
 VIDEOS_PER_CLASS = 22
 
+# Fixed so the selected subset is reproducible across machines and reruns.
 RANDOM_SEED = 42
+
+__all__ = [
+    "ANNOTATIONS_JSON",
+    "VIDEOS_DIR",
+    "DATA_DIR",
+    "ANNOTATIONS_DIR",
+    "VIDEOS_OUTPUT_DIR",
+    "KEYPOINTS_DIR",
+    "OUTPUT_DIR",
+    "TOP_K_WORDS",
+    "VIDEOS_PER_CLASS",
+    "RANDOM_SEED",
+]

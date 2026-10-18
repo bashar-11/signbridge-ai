@@ -1,33 +1,44 @@
+# Python
 __pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
 
-*.pyc
+# Node
+node_modules/
+dist/
+.vite/
+*.local
 
+# Pose model weights
 *.pth
-
 *.ckpt
-
 *.pt
-
 *.onnx
-
 *.npz
 
-*.zip
-
-*.log
-
-.env
-
-.vscode/
-
-.idea/
-
-outputs/
-
-cache/
-
+# Datasets and generated artefacts
 data/
-
+outputs/
+cache/
+runs/
 wandb/
 
-runs/
+# Packed archives are never committed: they duplicate the tree they contain.
+*.zip
+
+# Secrets
+.env
+.env.local
+
+# Logs
+*.log
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

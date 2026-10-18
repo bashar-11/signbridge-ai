@@ -3,7 +3,53 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "signbridge_ai"
-version = "1.0.0"
-description = "Sign Language Recognition AI"
+name = "signbridge-ai"
+version = "0.1.0"
+description = "Sign-language recognition pipeline: WLASL dataset preparation, video I/O and a pluggable pose-estimation backend."
+readme = "README.md"
+license = { file = "LICENSE" }
 requires-python = ">=3.10"
+keywords = [
+    "sign-language",
+    "accessibility",
+    "assistive-technology",
+    "pose-estimation",
+    "computer-vision",
+    "wlasl",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Image Recognition",
+]
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "opencv-python>=4.8",
+    "tqdm>=4.65",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[tool.setuptools.packages.find]
+include = ["src*", "configs*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

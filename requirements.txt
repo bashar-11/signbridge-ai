@@ -1,23 +1,12 @@
-torch
-torchvision
-opencv-python
-numpy
-pandas
-tqdm
+# Core dependencies for the dataset and video-processing pipeline.
+#
+# The pose stack (torch, mmpose, mmcv, mmdet) is deliberately NOT here: mmcv has
+# to be compiled against the exact torch and CUDA build, so `pip install -r
+# requirements.txt` would fail for most people. Install it separately with
+# requirements-pose.txt once you know which CUDA version you are targeting.
 
-mmpose
-mmengine
-mmcv-lite
-mmdet
-
-transformers
-
-scikit-learn
-
-matplotlib
-
-PyYAML
-
-rich
-
-einops
+numpy>=1.24
+pandas>=2.0
+opencv-python>=4.8
+tqdm>=4.65
+PyYAML>=6.0
