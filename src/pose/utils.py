@@ -13,15 +13,9 @@ def ensure_directory(path: Path):
 def is_video_file(path: Path):
 
     return path.suffix.lower() in {
-
         ".mp4",
-
         ".avi",
-
         ".mov",
-
         ".mkv",
-
         ".webm",
-
     }

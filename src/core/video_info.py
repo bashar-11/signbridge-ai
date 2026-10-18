@@ -7,7 +7,6 @@ from dataclasses import dataclass
 
 @dataclass
 class VideoInfo:
-
     path: str
 
     width: int

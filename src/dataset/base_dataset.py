@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
-import pandas as pd
 
 
 class BaseDataset(ABC):

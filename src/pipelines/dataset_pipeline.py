@@ -5,8 +5,8 @@ WLASL is exposed as a pandas DataFrame by ``WLASLDataset.load()``, so this
 pipeline iterates that table rather than the dataset object itself.
 """
 
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Iterator
 
 from src.dataset.dataset_factory import DatasetFactory
 

@@ -14,7 +14,7 @@ ANNOTATIONS = OUTPUT_DIR / "top100_annotations.json"
 
 def load_annotations():
 
-    with open(ANNOTATIONS, "r", encoding="utf-8") as f:
+    with open(ANNOTATIONS, encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -31,7 +31,6 @@ def main():
     missing = 0
 
     for gloss in tqdm(data):
-
         word = gloss["gloss"]
 
         save_dir = VIDEOS_OUTPUT_DIR / word
@@ -39,7 +38,6 @@ def main():
         save_dir.mkdir(exist_ok=True)
 
         for instance in gloss["instances"]:
-
             video = instance["video_id"] + ".mp4"
 
             src = VIDEOS_DIR / video
@@ -47,13 +45,11 @@ def main():
             dst = save_dir / video
 
             if src.exists():
-
                 shutil.copy2(src, dst)
 
                 copied += 1
 
             else:
-
                 missing += 1
 
     print("=" * 60)

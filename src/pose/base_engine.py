@@ -7,13 +7,12 @@ must inherit from this class.
 
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
 
 import numpy as np
 
 
 class BasePoseEngine(ABC):
-
     def __init__(self, device: str = "cuda"):
 
         self.device = device
@@ -27,7 +26,7 @@ class BasePoseEngine(ABC):
         pass
 
     @abstractmethod
-    def infer(self, frame: np.ndarray) -> Dict[str, Any]:
+    def infer(self, frame: np.ndarray) -> dict[str, Any]:
         """
         Run inference on one frame.
 

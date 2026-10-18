@@ -15,7 +15,7 @@ import json
 import random
 from collections import Counter
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 from configs.dataset_config import (
     ANNOTATIONS_JSON,
@@ -28,18 +28,18 @@ from configs.dataset_config import (
 OUTPUT_JSON = OUTPUT_DIR / "top100_annotations.json"
 
 
-def load_annotations(path: Path | str = ANNOTATIONS_JSON) -> List[Dict[str, Any]]:
+def load_annotations(path: Path | str = ANNOTATIONS_JSON) -> list[dict[str, Any]]:
     """Load the raw WLASL annotation file."""
-    with open(path, "r", encoding="utf-8") as fh:
+    with open(path, encoding="utf-8") as fh:
         return json.load(fh)
 
 
 def select_top_classes(
-    data: List[Dict[str, Any]],
+    data: list[dict[str, Any]],
     top_k: int = TOP_K_WORDS,
     per_class: int = VIDEOS_PER_CLASS,
     seed: int = RANDOM_SEED,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """
     Keep the `top_k` most frequent glosses, capped at `per_class` instances each.
 
@@ -56,7 +56,7 @@ def select_top_classes(
 
     top_words = {word for word, _ in counts.most_common(top_k)}
 
-    balanced: List[Dict[str, Any]] = []
+    balanced: list[dict[str, Any]] = []
     for sample in data:
         if sample["gloss"] not in top_words:
             continue
