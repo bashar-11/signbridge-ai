@@ -52,4 +52,8 @@ target-version = "py310"
 select = ["E", "F", "I", "UP", "B"]
 
 [tool.pytest.ini_options]
+# Run as `pytest` (not `python -m pytest`) the working directory is not added to
+# sys.path, so `import src...` fails during collection. Setting pythonpath here
+# makes the suite run identically locally and in CI.
+pythonpath = ["."]
 testpaths = ["tests"]
